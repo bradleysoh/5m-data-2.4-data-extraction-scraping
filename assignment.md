@@ -36,7 +36,26 @@ def parse_and_extract_rows(soup: BeautifulSoup):
 Answer:
 
 ```python
+rows = []
+page = 1
 
+r = requests.get(f"https://www.scrapethissite.com/pages/forms/?page_num={page}")
+#Use BeautifulSoup to parse the HTML. Transforms the raw HTML content of the webpage into a BeautifulSoup object
+soup = BeautifulSoup(r.text, "html.parser")
+# build a dictionary of info extracted from the website
+for row_dict in parse_and_extract_rows(r.text):
+        rows.append(row_dict)
+
+#using 'Inspect Elements' under Chrome's Developer option, identify the tag and class name of the arrow that appears on a page that is not the last.
+while soup.find('a', {'aria-label'="Next"}):
+    #moves to the next page
+    page += 1
+    #continue building the dictionary
+    r = requests.get(f"https://www.scrapethissite.com/pages/forms/?page_num={page}")
+    for row_dict in parse_and_extract_rows(r.text):
+        rows.append(row_dict)
+    # pause for 1 second between requests
+    time.sleep(1)
 ```
 
 ## Submission
