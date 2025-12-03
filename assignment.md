@@ -36,6 +36,10 @@ def parse_and_extract_rows(soup: BeautifulSoup):
 Answer:
 
 ```python
+import requests
+import time
+from bs4 import BeautifulSoup
+
 rows = []
 page = 1
 
